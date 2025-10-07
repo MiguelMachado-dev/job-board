@@ -1,16 +1,21 @@
-import { useState } from "react";
 import JobList from "../components/JobList";
-import { getJobs } from "../lib/graphql/queries";
+import { useJobs } from "../hooks/useJobs";
 
 function HomePage() {
-  const [jobs, setJobs] = useState([]);
+  const { data, isLoading, error } = useJobs();
 
-  getJobs().then(setJobs);
+  if (isLoading) {
+    return <div>Loading jobs...</div>;
+  }
+
+  if (error) {
+    return <div>Error loading jobs: {error.message}</div>;
+  }
 
   return (
     <div>
       <h1 className="title">Job Board</h1>
-      <JobList jobs={jobs} />
+      <JobList jobs={data} />
     </div>
   );
 }
