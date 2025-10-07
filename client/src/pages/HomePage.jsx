@@ -1,9 +1,12 @@
+import { useState } from "react";
 import JobList from "../components/JobList";
 import { getJobs } from "../lib/graphql/queries";
 
-const jobs = getJobs().then((jobs) => console.log({ jobs }));
-
 function HomePage() {
+  const [jobs, setJobs] = useState([]);
+
+  getJobs().then(setJobs);
+
   return (
     <div>
       <h1 className="title">Job Board</h1>
