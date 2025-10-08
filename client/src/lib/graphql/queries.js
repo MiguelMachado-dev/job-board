@@ -18,8 +18,14 @@ export async function getCompany(id) {
     }
   `;
 
-  const { company } = await client.request(query, { companyId: id });
-  return company;
+  try {
+    const { company } = await client.request(query, { companyId: id });
+    return company;
+  } catch (error) {
+    // graphql-request throws ClientError for GraphQL errors
+    console.error("GraphQL Error:", error);
+    throw error; // Re-throw to let React Query handle it
+  }
 }
 
 export async function getJob(id) {

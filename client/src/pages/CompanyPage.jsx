@@ -5,7 +5,16 @@ import JobList from "../components/JobList";
 function CompanyPage() {
   const { companyId } = useParams();
 
-  const { data: company, isLoading } = useGetCompany(companyId);
+  const { data: company, isLoading, isError, error } = useGetCompany(companyId);
+
+  if (isError) {
+    return (
+      <div className="notification is-danger">
+        <p>Error fetching company info.</p>
+        <p>Details: {error?.message || "Unknown error"}</p>
+      </div>
+    );
+  }
 
   return (
     <div>

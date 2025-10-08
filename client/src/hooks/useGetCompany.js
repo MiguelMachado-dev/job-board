@@ -5,5 +5,6 @@ export function useGetCompany(companyId) {
   return useQuery({
     queryKey: ["company-id", companyId],
     queryFn: () => getCompany(companyId),
+    retry: false, // Disable retries so errors are shown immediately
   });
 }
