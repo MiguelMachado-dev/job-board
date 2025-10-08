@@ -1,18 +1,21 @@
-import { useParams } from 'react-router';
-import { companies } from '../lib/fake-data';
+import { useParams } from "react-router";
+import { useGetCompany } from "../hooks/useGetCompany";
 
 function CompanyPage() {
   const { companyId } = useParams();
 
-  const company = companies.find((company) => company.id === companyId);
+  const { data: company, isLoading } = useGetCompany(companyId);
+
   return (
     <div>
-      <h1 className="title">
-        {company.name}
-      </h1>
-      <div className="box">
-        {company.description}
-      </div>
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : (
+        <>
+          <h1 className="title">{company.name}</h1>
+          <div className="box">{company.description}</div>
+        </>
+      )}
     </div>
   );
 }
